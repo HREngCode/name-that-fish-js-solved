@@ -1,34 +1,18 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { FunctionalGameBoard } from "./FunctionalGameBoard";
 import { FunctionalFinalScore } from "./FunctionalFinalScore";
+import { FunctionalScoreBoard } from "./FunctionalScoreBoard";
+import { initialFishes } from "../../data";
 
-export function FunctionalApp({
-  fishGuess,
-  setFishGuess,
-  incorrectCount,
-  setIncorrectCount,
-  correctCount,
-  setCorrectCount,
-  totalCount,
-  setTotalCount,
-  answersLeft,
-  setAnswersLeft,
-}) {
-  const [gameOver, setGameOver] = useState(false);
-  const removeFishGuess = () => {
-    setAnswersLeft((prevAnswersLeft) =>
-      prevAnswersLeft.filter((answer) => answer !== fishGuess)
-    );
-    setFishGuess("");
-  };
-
-  const remainingFishNames = answersLeft;
-
-  useEffect(() => {
-    if (remainingFishNames.length === 0) {
-      setGameOver(true);
-    }
-  }, [remainingFishNames]);
+export function FunctionalApp() {
+  const [incorrectCount, setIncorrectCount] = useState(0);
+  const [correctCount, setCorrectCount] = useState(0);
+  const [answersLeft, setAnswersLeft] = useState(
+    initialFishes.map((fish) => fish.name)
+  );
+  const currentFishIndex = incorrectCount + correctCount;
+  const gameOver = currentFishIndex === initialFishes.length;
+  const totalCount = initialFishes.length;
 
   return (
     <>
@@ -38,18 +22,20 @@ export function FunctionalApp({
           totalCount={totalCount}
         />
       ) : (
-        <FunctionalGameBoard
-          fishGuess={fishGuess}
-          setFishGuess={setFishGuess}
-          incorrectCount={incorrectCount}
-          setIncorrectCount={setIncorrectCount}
-          correctCount={correctCount}
-          setCorrectCount={setCorrectCount}
-          answersLeft={answersLeft}
-          setAnswersLeft={setAnswersLeft}
-          removeFishGuess={removeFishGuess}
-          remainingFishNames={remainingFishNames}
-        />
+        <>
+          <FunctionalScoreBoard
+            incorrectCount={incorrectCount}
+            correctCount={correctCount}
+            answersLeft={answersLeft}
+          />
+          <FunctionalGameBoard
+            currentFish={initialFishes[currentFishIndex]}
+            answersLeft={answersLeft}
+            setAnswersLeft={setAnswersLeft}
+            setCorrectCount={setCorrectCount}
+            setIncorrectCount={setIncorrectCount}
+          />
+        </>
       )}
     </>
   );

@@ -1,64 +1,33 @@
 import "./styles/game-board.css";
-import { Images } from "../../assets/Images";
 import { useState } from "react";
-import { FunctionalScoreBoard } from "./FunctionalScoreBoard";
-
-const initialFishes = [
-  {
-    name: "trout",
-    url: Images.trout,
-  },
-  {
-    name: "salmon",
-    url: Images.salmon,
-  },
-  {
-    name: "tuna",
-    url: Images.tuna,
-  },
-  {
-    name: "shark",
-    url: Images.shark,
-  },
-];
 
 export function FunctionalGameBoard({
-  fishGuess,
-  setFishGuess,
+  currentFish,
   setCorrectCount,
   setIncorrectCount,
-  removeFishGuess,
-  correctCount,
-  incorrectCount,
+  setAnswersLeft,
   answersLeft,
 }) {
-  const [currentIndex, setCurrentIndex] = useState(0);
-  const nextFishToName = initialFishes[currentIndex];
+  const [fishGuess, setFishGuess] = useState("");
 
   const handleSubmit = (e) => {
     e.preventDefault();
 
-    if (fishGuess.toLowerCase() === nextFishToName.name) {
-      setCorrectCount((prevCount) => parseInt(prevCount) + 1);
+    setAnswersLeft(answersLeft.splice(1));
+
+    if (fishGuess.toLowerCase() === currentFish.name) {
+      setCorrectCount((prevCount) => prevCount + 1);
     } else {
-      setIncorrectCount((prevCount) => parseInt(prevCount) + 1);
+      setIncorrectCount((prevCount) => prevCount + 1);
     }
-    removeFishGuess();
-    setCurrentIndex(
-      (prevIndex) => (parseInt(prevIndex) + 1) % initialFishes.length
-    );
+    setFishGuess("");
   };
 
   return (
     <div>
-      <FunctionalScoreBoard
-        correctCount={correctCount}
-        incorrectCount={incorrectCount}
-        answersLeft={answersLeft}
-      />
       <div id="game-board">
         <div id="fish-container">
-          <img src={nextFishToName.url} alt={nextFishToName.name} />
+          <img src={currentFish.url} alt={currentFish.name} />
         </div>
         <form id="fish-guess-form" onSubmit={handleSubmit}>
           <label htmlFor="fish-guess">What kind of fish is this?</label>
