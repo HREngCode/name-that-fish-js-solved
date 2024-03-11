@@ -5,17 +5,13 @@ export function FunctionalGameBoard({
   currentFish,
   setCorrectCount,
   setIncorrectCount,
-  setAnswersLeft,
-  answersLeft,
 }) {
   const [fishGuess, setFishGuess] = useState("");
 
   const handleSubmit = (e) => {
     e.preventDefault();
 
-    setAnswersLeft(answersLeft.splice(1));
-
-    if (fishGuess.toLowerCase() === currentFish.name) {
+    if (fishGuess.toLowerCase() === currentFish.name.toLowerCase()) {
       setCorrectCount((prevCount) => prevCount + 1);
     } else {
       setIncorrectCount((prevCount) => prevCount + 1);
