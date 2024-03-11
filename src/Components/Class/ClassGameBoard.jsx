@@ -36,11 +36,12 @@ export class ClassGameBoard extends Component {
         <div id="fish-container">
           <img src={currentFish.url} alt={currentFish.name} />
         </div>
-        <form id="fish-guess-form" onSubmit={this.handleSubmit}>
+        <form id="fish-guess-form" onSubmit={(e) => this.handleSubmit(e)}>
           <label htmlFor="fish-guess">What kind of fish is this?</label>
           <input
             type="text"
             name="fish-guess"
+            value={this.state.fishGuess}
             onChange={(e) => this.handleInputChange(e.target.value)}
           />
           <input type="submit" />

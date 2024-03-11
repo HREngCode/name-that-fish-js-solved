@@ -30,29 +30,27 @@ class ClassApp extends Component {
 
     return (
       <>
-        {isGameOver(
+        {isGameOver && (
           <ClassFinalScore
             correctCount={correctCount}
             totalCount={totalCount}
           />
         )}
-        {
-          !isGameOver(
-            <>
-              <ClassScoreBoard
-                incorrectCount={incorrectCount}
-                correctCount={correctCount}
-                answersLeft={answersLeft}
-              />
-              <ClassGameBoard
-                currentFish={currentFish}
-                fishGuess={fishGuess}
-                onSubmit={this.handleSubmit}
-                onChange={this.handleChange}
-              />
-            </>
-          )
-        }
+        {!isGameOver && (
+          <>
+            <ClassScoreBoard
+              incorrectCount={incorrectCount}
+              correctCount={correctCount}
+              answersLeft={answersLeft}
+            />
+            <ClassGameBoard
+              currentFish={currentFish}
+              updateAppState={this.updateAppState}
+              correctCount={correctCount}
+              incorrectCount={incorrectCount}
+            />
+          </>
+        )}
       </>
     );
   }
