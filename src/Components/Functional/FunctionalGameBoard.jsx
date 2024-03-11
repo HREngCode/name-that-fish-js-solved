@@ -8,14 +8,17 @@ export function FunctionalGameBoard({
 }) {
   const [fishGuess, setFishGuess] = useState("");
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
-
-    if (fishGuess.toLowerCase() === currentFish.name.toLowerCase()) {
+  const handleAnswer = (answer) => {
+    if (answer.toLowerCase() === currentFish.name.toLowerCase()) {
       setCorrectCount((prevCount) => prevCount + 1);
     } else {
       setIncorrectCount((prevCount) => prevCount + 1);
     }
+  };
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    handleAnswer(fishGuess);
     setFishGuess("");
   };
 
